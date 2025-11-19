@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student List</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f2f2f2; margin: 0; padding: 20px; }
+    h1 { text-align: center; color: #333; }
+    table { width: 80%; margin: 20px auto; border-collapse: collapse; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    th, td { padding: 12px; text-align: center; border: 1px solid #ddd; }
+    th { background: #007BFF; color: white; }
+    tr:hover { background: #f1f1f1; }
+  </style>
+</head>
+<body>
+  <h1>School Student List</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th><th>Name</th><th>Age</th><th>Grade</th>
+      </tr>
+    </thead>
+    <tbody id="studentTable"></tbody>
+  </table>
+
+  <script>
+    async function loadStudents() {
+      try {
+        const response = await fetch('/api/students');
+        const students = await response.json();
+        const table = document.getElementById('studentTable');
+        table.innerHTML = students.map(s => `
+          <tr>
+            <td>${s.id}</td>
+            <td>${s.name}</td>
+            <td>${s.age}</td>
+            <td>${s.grade}</td>
+          </tr>
+        `).join('');
+      } catch (error) {
+        console.error('Error loading students:', error);
+      }
+    }
+    loadStudents();
+  </script>
+</body>
+</html>
